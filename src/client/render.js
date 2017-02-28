@@ -29,6 +29,18 @@
     }
   };
 
+  Renderer.prototype.images = function(objectType){
+    var image = new Image()
+    if(objectType.type === "ship"){
+    image.src="https://s10.postimg.org/z867rws61/pewship2.png"
+    } else if (objectType.type === "pew"){
+      //put new image src here
+    } else if (objectType.type === "asteroid"){
+      //puts new image src here
+    }
+    return image
+  }
+
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.draw = function(object){
     //get dimensions from earlier function
@@ -38,7 +50,13 @@
     this.ctx.fillStyle ="white";
     this.ctx.translate(dims.midpointX, dims.midpointY);
     this.ctx.rotate(dims.rad-(Math.PI/2));
-    this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+
+    if(object.type === "ship" || object.type === "pew"){
+      this.ctx.drawImage(this.images(object),dims.width/(-2),dims.height/(-2));
+    } else {
+      this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+    }
+
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
     this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
   }
@@ -79,7 +97,7 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:     {width: 20, height: 40},
+    ship:     {width: 35, height: 52},
     spawnship: {width: 10, height: 20},
     pew:      {width: 4, height: 10},
     astroid:  {width: 40, height: 40},
